@@ -14,7 +14,8 @@ import {
   Tab,
   Tabs,
   TextField,
-  Typography
+  Typography,
+  MenuItem
 } from '@mui/material';
 import { useAuth } from 'src/hooks/use-auth';
 import { Layout as AuthLayout } from 'src/layouts/auth/layout';
@@ -27,6 +28,7 @@ const Page = () => {
     initialValues: {
       email: 'demo@devias.io',
       password: 'Password123!',
+      role : '',
       submit: null
     },
     validationSchema: Yup.object({
@@ -38,11 +40,15 @@ const Page = () => {
       password: Yup
         .string()
         .max(255)
-        .required('Password is required')
+        .required('Password is required'),
+      password: Yup
+        .string()
+        .max(255)
+        .required('Role is required')
     }),
     onSubmit: async (values, helpers) => {
       try {
-        await auth.signIn(values.email, values.password);
+        await auth.signIn(values.email, values.password,values.role);
         router.push('/');
       } catch (err) {
         helpers.setStatus({ success: false });
@@ -115,20 +121,7 @@ const Page = () => {
                 </Link>
               </Typography>
             </Stack>
-            <Tabs
-              onChange={handleMethodChange}
-              sx={{ mb: 3 }}
-              value={method}
-            >
-              <Tab
-                label="Email"
-                value="email"
-              />
-              <Tab
-                label="Phone Number"
-                value="phoneNumber"
-              />
-            </Tabs>
+        
             {method === 'email' && (
               <form
                 noValidate
@@ -157,10 +150,22 @@ const Page = () => {
                     type="password"
                     value={formik.values.password}
                   />
+                    <TextField
+                      fullWidth
+                      select  // This indicates that you want to create a select dropdown
+                      label="Select Option"
+                      name="selectOption"
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      value={formik.values.selectOption}
+                    >
+                      {/* Define your select options using MenuItem */}
+                      <MenuItem value="option1">Admin</MenuItem>
+                      <MenuItem value="option2">Teacher</MenuItem>
+                      <MenuItem value="option3">student</MenuItem>
+                    </TextField>
                 </Stack>
-                <FormHelperText sx={{ mt: 1 }}>
-                  Optionally you can skip.
-                </FormHelperText>
+
                 {formik.errors.submit && (
                   <Typography
                     color="error"
@@ -187,29 +192,8 @@ const Page = () => {
                 >
                   Skip authentication
                 </Button>
-                <Alert
-                  color="primary"
-                  severity="info"
-                  sx={{ mt: 3 }}
-                >
-                  <div>
-                    You can use <b>demo@devias.io</b> and password <b>Password123!</b>
-                  </div>
-                </Alert>
+        
               </form>
-            )}
-            {method === 'phoneNumber' && (
-              <div>
-                <Typography
-                  sx={{ mb: 1 }}
-                  variant="h6"
-                >
-                  Not available in the demo
-                </Typography>
-                <Typography color="text.secondary">
-                  To prevent unnecessary costs we disabled this feature in the demo.
-                </Typography>
-              </div>
             )}
           </div>
         </Box>

@@ -64,6 +64,7 @@ export const AuthProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const initialized = useRef(false);
 
+  
   const initialize = async () => {
     // Prevent from calling twice in development mode with React.StrictMode enabled
     if (initialized.current) {
@@ -127,7 +128,7 @@ export const AuthProvider = (props) => {
     });
   };
 
-  const signIn = async (email, password) => {
+  const signIn = async (email, password,role) => {
     if (email !== 'demo@devias.io' || password !== 'Password123!') {
       throw new Error('Please check your email and password');
     }
@@ -142,8 +143,11 @@ export const AuthProvider = (props) => {
       id: '5e86809283e28b96d2d38537',
       avatar: '/assets/avatars/avatar-anika-visser.png',
       name: 'Anika Visser',
-      email: 'anika.visser@devias.io'
+      email: email,
+      role : role
     };
+
+    localStorage.setItem("user",user);
 
     dispatch({
       type: HANDLERS.SIGN_IN,

@@ -4,7 +4,7 @@ import ArrowUpIcon from '@heroicons/react/24/solid/ArrowUpIcon';
 import CurrencyDollarIcon from '@heroicons/react/24/solid/CurrencyDollarIcon';
 import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from '@mui/material';
 
-export const OverviewBudget = (props) => {
+export const OverviewAdmin = (props) => {
   const { difference, positive = false, sx, value } = props;
 
   return (
@@ -17,13 +17,7 @@ export const OverviewBudget = (props) => {
           spacing={3}
         >
           <Stack spacing={1}>
-            <Typography
-              color="text.secondary"
-              variant="overline"
-            >
-              Budget
-            </Typography>
-            <Typography variant="h4">
+            <Typography variant="h5">
               {value}
             </Typography>
           </Stack>
@@ -51,25 +45,10 @@ export const OverviewBudget = (props) => {
               direction="row"
               spacing={0.5}
             >
-              <SvgIcon
-                color={positive ? 'success' : 'error'}
-                fontSize="small"
-              >
-                {positive ? <ArrowUpIcon /> : <ArrowDownIcon />}
-              </SvgIcon>
-              <Typography
-                color={positive ? 'success.main' : 'error.main'}
-                variant="body2"
-              >
-                {difference}%
-              </Typography>
+              
+          
             </Stack>
-            <Typography
-              color="text.secondary"
-              variant="caption"
-            >
-              Since last month
-            </Typography>
+           
           </Stack>
         )}
       </CardContent>
@@ -77,7 +56,7 @@ export const OverviewBudget = (props) => {
   );
 };
 
-OverviewBudget.prototypes = {
+OverviewAdmin.prototypes = {
   difference: PropTypes.number,
   positive: PropTypes.bool,
   sx: PropTypes.object,
